@@ -1,0 +1,90 @@
+.test-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    border: solid #3f3f3f 3px;
+    padding: 1% 4%;
+    margin: 1%;
+    border-radius: .5rem;
+    width: 35%;
+}
+
+.test-title-list,
+.test-title-edit {
+    justify-content: space-between;
+    margin: 0.5%;
+}
+
+.test-title-edit {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.test-title-edit form * {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1rem;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    border-radius: 5rem;
+    margin: 3% auto;
+    padding: 5px;
+    width: 520px;
+}
+
+.test-title-edit form span {
+    display: flex;
+    flex-direction: row;
+}
+
+.test-title-edit form span * {
+    margin: auto 2%;
+}
+
+.test-title .btn {
+    background-color: #ededed;
+    color: #333333;
+    text-shadow: none;
+    border: .05rem solid #ededed;
+    padding: .75rem 1.25rem;
+    border-radius: .3rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    cursor: pointer;
+    margin: 5%;
+    box-sizing: border-box;
+}
+
+.test-title .form-buttons {
+    display: flex;
+    align-self: flex-end;
+}
+
+.drop-btn,
+.edit-btn,
+.access-btn {
+    width: 55px;
+    margin-left: 10px;
+    color: #ffffff;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: .3rem;
+    font-weight: 500;
+}
+
+.drop-btn {
+    background-color: #dc3545;
+}
+
+.edit-btn {
+    background-color: #007bff;
+}
+
+.access-btn {
+    background-color: #28a745;
+}

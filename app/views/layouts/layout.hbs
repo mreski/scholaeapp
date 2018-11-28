@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scholae App</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <div class="box">
+        <header>
+            <span>
+                <b>{{user.firstname}} {{user.lastname}}</b>,
+                klasa: <b>{{user.class}}</b>,
+                grupa: <b>{{user.group}}</b>,
+                ({{user.email}})
+             </span>
+            <nav>
+                <a href="#">Ustawienia</a>
+                <a href="/logout">Wyloguj</a>
+            </nav>
+        </header>
+        <main>
+            {{{ body }}}
+        </main>
+        <footer>
+            &copy; Copyright 2018 mrekli
+        </footer>
+    </div>
+</body>
+</html>

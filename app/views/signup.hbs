@@ -1,0 +1,34 @@
+<div class="sign-in-form">
+    <form id="signup" name="signup" method="post" action="/signup">
+        <h1>Zarejestruj się</h1>
+
+        <input type="text" name="firstname" placeholder="Imię">
+        <input type="text" name="lastname" placeholder="Nazwisko">
+        <input type="email" name="email" placeholder="Adres E-mail">
+        <input type="password" name="password" placeholder="Hasło">
+        {{!-- <input type="password" name="password" placeholder="Powtórz hasło"> --}}
+        <span class="class">
+            <select name="classnumber">
+                <option value="1">Klasa 1</option>
+                <option value="2">Klasa 2</option>
+                <option value="3">Klasa 3</option>
+                <option value="4">Klasa 4</option>
+            </select>
+            <select name="classletter">
+                <option value="a">A</option>
+                <option value="b">B</option>
+                <option value="c">C</option>
+                <option value="d">D</option>
+                <option value="e">E</option>
+                <option value="f">F</option>
+                <option value="g">G</option>
+                <option value="h">H</option>
+            </select>
+            <select name="group">
+                <option value="1">Grupa 1</option>
+                <option value="2">Grupa 2</option>
+             </select>
+        </span>
+        <input type="submit" value="ZAREJESTRUJ SIĘ" class="button">
+    </form>
+</div>

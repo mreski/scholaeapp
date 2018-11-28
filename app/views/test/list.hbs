@@ -1,0 +1,16 @@
+{{#each tests}}
+    <div class="test-title test-title-list">
+        {{this.name}}
+        <div class="form-buttons">
+            <form method="post" action="/test/drop/{{this.id}}">
+                <input type="submit" value="Usuń" class="drop-btn">
+            </form>
+            <form  method="get" action="/test/edit/{{this.id}}">
+                <input type="submit" value="Edytuj" class="edit-btn">
+            </form>
+            <form  method="get" action="/test/edit/{{this.id}}">
+                <input type="submit" value="Dostęp" class="access-btn">
+            </form>
+        </div>
+    </div>
+{{/each}}
