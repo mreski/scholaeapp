@@ -20,6 +20,13 @@ module.exports = function(app, passport) {
 
     app.post('/test/question/drop/:id', isTeacher, testController.dropQuestion);
 
+    app.get('/test/access/:id', isTeacher, testController.accessGet);
+    app.post('/test/access/:id', isTeacher, testController.accessGet);
+
+    app.post('/test/access/revoke/:id', isTeacher, testController.revokeAccess);
+
+    app.post('/test/access/give/:id', isTeacher, testController.giveAccess);
+
     function isTeacher(req, res, next) {
         if (req.isAuthenticated() && (req.user.role == 'teacher' || req.user.role == 'admin')) {
             return next();
