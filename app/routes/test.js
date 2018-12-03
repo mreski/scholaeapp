@@ -16,6 +16,10 @@ module.exports = function(app, passport) {
 
     app.post('/test/question/create', isTeacher, testController.createQuestion);
 
+    app.post('/test/question/edit/:id', isTeacher, testController.editQuestion);
+
+    app.post('/test/question/drop/:id', isTeacher, testController.dropQuestion);
+
     function isTeacher(req, res, next) {
         if (req.isAuthenticated() && (req.user.role == 'teacher' || req.user.role == 'admin')) {
             return next();

@@ -83,9 +83,9 @@ exports.createQuestion = (req, res) => {
     const idTest = req.body.idTest;
     const question = req.body.question;
     const ansA = req.body.ansA;
-    const ansB = req.body.ansA;
-    const ansC = req.body.ansA;
-    const ansD = req.body.ansA;
+    const ansB = req.body.ansB;
+    const ansC = req.body.ansC;
+    const ansD = req.body.ansD;
     const correct = req.body.correct;
     const points = req.body.points || 1;
 
@@ -101,4 +101,48 @@ exports.createQuestion = (req, res) => {
     }).save().then(() => {
         res.redirect(`/test/edit/${idTest}`);
     })
+}
+
+exports.editQuestion = (req, res) => {
+
+    const idQuestion = req.params.id;
+    const idTest = req.body.idTest;
+    const question = req.body.question;
+    const ansA = req.body.ansA;
+    const ansB = req.body.ansB;
+    const ansC = req.body.ansC;
+    const ansD = req.body.ansD;
+    const correct = req.body.correct;
+    const points = req.body.points || 1;
+
+    Question.update({
+        question: question,
+        ansA: ansA,
+        ansB: ansB,
+        ansC: ansC,
+        ansD: ansD,
+        correct: correct,
+        points: points,
+        idTest: idTest
+    }, {
+        where: {
+            id: idQuestion
+        } 
+    }).then(() => {
+        res.redirect(`/test/edit/${idTest}`);
+    });
+}
+
+exports.dropQuestion = (req, res) => {
+
+    const idQuestion = req.params.id;
+    const idTest = req.body.idTest;
+
+    Question.destroy({
+        where: {
+            id: idQuestion
+        }
+    }).then(() => {
+        res.redirect(`/test/edit/${idTest}`);
+    });
 }
