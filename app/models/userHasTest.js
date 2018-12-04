@@ -4,7 +4,7 @@ module.exports = function(sequelize, Sequelize) {
 		id: { autoIncrement: true, primaryKey: true, type: Sequelize.INTEGER},
 		idUser : {type: Sequelize.INTEGER},
 		idTest : {type: Sequelize.INTEGER},
-		status: {type: Sequelize.ENUM('true','false'),defaultValue:'false' }
+		status: {type: Sequelize.INTEGER}
 	});
 
 	return UserHasTest;

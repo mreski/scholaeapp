@@ -153,7 +153,7 @@ exports.accessGet = (req, res) => {
 
     const idTest = req.params.id;
     var userClass = `${req.body.classnumber}${req.body.classletter}`;
-    var userGroup = '1';
+    var userGroup = 1;
 
     if(userClass == 'undefinedundefined') {
         userClass = '1a';
@@ -187,7 +187,7 @@ exports.accessGet = (req, res) => {
     });
 
     sequelize.query(
-        `SELECT users.id, users.firstname, users.lastname, userhastests.idTest FROM users LEFT JOIN userhastests ON users.id = userhastests.idUser WHERE (userhastests.idTest = ${idTest} OR userhastests.idTest IS NULL) AND users.class = '${userClass}' AND users.group = '${userGroup}' GROUP BY users.id`
+        `SELECT users.id, users.firstname, users.lastname, userhastests.idTest, userhastests.status FROM users LEFT JOIN userhastests ON users.id = userhastests.idUser WHERE (userhastests.idTest = ${idTest} OR userhastests.idTest IS NULL) AND users.class = '${userClass}' AND users.group = '${userGroup}' GROUP BY users.id ORDER BY users.lastname`
     ).then((usersHaveTest) => {
         // console.log(usersHaveTest);
         res.render('test/access', {idTest: idTest, usersHaveTest: usersHaveTest});
@@ -214,10 +214,14 @@ exports.giveAccess = (req, res) => {
     const idUser = req.params.id;
     const idTest = req.body.idTest;
 
-    UserHasTest.build({
-        idUser: idUser,
-        idTest: idTest
-    }).save().then(() => {
+    UserHasTest.update({
+        status: 1,
+    }, {
+        where: {
+            idUser: idUser,
+            idTest: idTest
+        }
+    }).then(() => {
         res.redirect(`/test/access/${idTest}`);
     });
 }
