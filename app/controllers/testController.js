@@ -12,6 +12,8 @@ var models = require('sequelize-import')(path.join(__dirname, '..', 'models'), s
 
 const Test = models.test;
 const Question = models.question;
+const User = models.user;
+const UserHasTest = models.userHasTest;
   
 exports.create = (req, res) => {
     
@@ -144,5 +146,82 @@ exports.dropQuestion = (req, res) => {
         }
     }).then(() => {
         res.redirect(`/test/edit/${idTest}`);
+    });
+}
+
+exports.accessGet = (req, res) => {
+
+    const idTest = req.params.id;
+    var userClass = `${req.body.classnumber}${req.body.classletter}`;
+    var userGroup = 1;
+
+    if(userClass == 'undefinedundefined') {
+        userClass = '1a';
+    }
+
+    if(userGroup == 'undefined') {
+        userGroup = '1';
+    }
+
+    User.findAll({
+        where: {
+            class: userClass,
+            group: userGroup
+        }
+    }).then((users) => {
+        users.forEach((user) => {
+            UserHasTest.findOne({
+                where: {
+                    idUser: user.id,
+                    idTest: idTest
+                }
+            }).then((hasTest) => {
+                if(!hasTest) {
+                    UserHasTest.build({
+                        idUser: user.id,
+                        idTest: idTest
+                    }).save();
+                }
+            });
+        });
+    });
+
+    sequelize.query(
+        `SELECT users.id, users.firstname, users.lastname, userhastests.idTest, userhastests.status FROM users LEFT JOIN userhastests ON users.id = userhastests.idUser WHERE (userhastests.idTest = ${idTest} OR userhastests.idTest IS NULL) AND users.class = '${userClass}' AND users.group = '${userGroup}' GROUP BY users.id ORDER BY users.lastname`
+    ).then((usersHaveTest) => {
+        // console.log(usersHaveTest);
+        res.render('test/access', {idTest: idTest, usersHaveTest: usersHaveTest});
+    });
+}
+
+exports.revokeAccess = (req, res) => {
+
+    const idUser = req.params.id;
+    const idTest = req.body.idTest;
+
+    UserHasTest.destroy({
+        where: {
+            idUser: idUser,
+            idTest: idTest
+        }
+    }).then(() => {
+        res.redirect(`/test/access/${idTest}`);
+    });
+}
+
+exports.giveAccess = (req, res) => {
+
+    const idUser = req.params.id;
+    const idTest = req.body.idTest;
+
+    UserHasTest.update({
+        status: 1,
+    }, {
+        where: {
+            idUser: idUser,
+            idTest: idTest
+        }
+    }).then(() => {
+        res.redirect(`/test/access/${idTest}`);
     });
 }

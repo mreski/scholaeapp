@@ -67,7 +67,7 @@
 .drop-btn,
 .edit-btn,
 .access-btn {
-    width: 55px;
+    min-width: 55px;
     margin-left: 10px;
     color: #ffffff;
     border: none;

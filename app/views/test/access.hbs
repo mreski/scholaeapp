@@ -1,0 +1,40 @@
+<div class="test-title">
+    <form method="post" action="/test/access/{{idTest}}">
+        <select name="classnumber">
+            <option value="1">Klasa 1</option>
+            <option value="2">Klasa 2</option>
+            <option value="3">Klasa 3</option>
+            <option value="4">Klasa 4</option>
+        </select>
+        <select name="classletter">
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="c">C</option>
+            <option value="d">D</option>
+            <option value="e">E</option>
+            <option value="f">F</option>
+            <option value="g">G</option>
+            <option value="h">H</option>
+        </select>
+        <select name="group">
+            <option value="1">Grupa 1</option>
+            <option value="2">Grupa 2</option>
+        </select>
+        <input type="submit" value="Zastosuj">
+    </form>
+</div>
+
+{{#each usersHaveTest.[0]}}
+    <div class="test-title test-title-list">
+        <form method="post">
+            <input type="hidden" name="idTest" value="{{../idTest}}">
+            {{this.firstname}}
+            {{this.lastname}}
+            {{#if this.status}}
+                <button formaction="/test/access/revoke/{{this.id}}" type="submit" class="drop-btn">Odbierz dostęp</button>
+            {{else}}
+                <button formaction="/test/access/give/{{this.id}}" type="submit" class="access-btn">Daj dostęp</button>
+            {{/if}}
+        </form>
+    </div>
+{{/each}}
