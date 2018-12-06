@@ -1,0 +1,24 @@
+{{#each questions.[0]}}
+    <div class="test-title test-title-questions">
+        {{this.question}}
+        
+        <label>
+            <input type="checkbox" name="" id="">
+            {{this.ansA}}
+        </label>
+        <label>
+            <input type="checkbox" name="" id="">
+            {{this.ansB}}
+        </label>
+        <label>
+            <input type="checkbox" name="" id="">
+            {{this.ansC}}
+        </label>
+        <label>
+            <input type="checkbox" name="" id="">
+            {{this.ansD}}
+        </label>
+
+        <input type="hidden" name="" value="{{this.id}}">
+    </div>
+{{/each}}

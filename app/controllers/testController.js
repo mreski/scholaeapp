@@ -225,3 +225,16 @@ exports.giveAccess = (req, res) => {
         res.redirect(`/test/access/${idTest}`);
     });
 }
+
+exports.showTest = (req, res) => {
+
+    const idTest = req.params.id;
+    const idUser =  req.user.id;
+
+    sequelize.query(
+        `SELECT questions.* from tests JOIN questions ON tests.id = questions.idTest JOIN userhastests ON tests.id = userhastests.idTest WHERE tests.id = ${idTest} AND userhastests.idUser = ${idUser}`
+    ).then((questions) => {
+        console.log(questions);
+        res.render('test/questions', {questions: questions});
+    })
+}
