@@ -29,6 +29,13 @@ module.exports = function(app, passport) {
 
     app.get('/test/:id', isLoggedIn, testController.showTest);
 
+    app.post('/test/check', isLoggedIn, testController.checkTest);
+
+    app.get('/test/correct/:id', isLoggedIn, testController.correctAnswers);
+
+    app.get('/test/results/:id', isTeacher, testController.results);
+    app.post('/test/results/:id', isTeacher, testController.results);
+
     function isTeacher(req, res, next) {
         if (req.isAuthenticated() && (req.user.role == 'teacher' || req.user.role == 'admin')) {
             return next();

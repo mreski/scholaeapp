@@ -14,6 +14,8 @@ const Test = models.test;
 const Question = models.question;
 const User = models.user;
 const UserHasTest = models.userHasTest;
+const UserAnswer = models.userAnswer;
+const Result = models.result;
   
 exports.create = (req, res) => {
     
@@ -153,7 +155,7 @@ exports.accessGet = (req, res) => {
 
     const idTest = req.params.id;
     var userClass = `${req.body.classnumber}${req.body.classletter}`;
-    var userGroup = 1;
+    var userGroup = req.body.group;
 
     if(userClass == 'undefinedundefined') {
         userClass = '1a';
@@ -234,7 +236,87 @@ exports.showTest = (req, res) => {
     sequelize.query(
         `SELECT questions.* from tests JOIN questions ON tests.id = questions.idTest JOIN userhastests ON tests.id = userhastests.idTest WHERE tests.id = ${idTest} AND userhastests.idUser = ${idUser}`
     ).then((questions) => {
-        console.log(questions);
-        res.render('test/questions', {questions: questions});
+        res.render('test/questions', {questions: questions, idTest: idTest});
     })
+}
+
+exports.checkTest = (req, res) => {
+
+    const questions = req.body.questionId;
+    const idUser = req.user.id;
+    const idTest = req.body.idTest;
+    var points = 0;
+    var i = 1;
+
+    questions.forEach((questionId) => {
+        var answer = req.body[`answer${questionId}`];
+        i++; 
+
+        Question.findOne({
+            where: {
+                id: questionId
+            }
+        }).then((correct) => {
+
+            if(answer == correct.correct) {
+                console.log(`${answer} - ${correct.correct} - ${points}`);
+                points += 1;
+            }
+
+            UserAnswer.destroy({
+                where: {
+                    idQuestion: questionId,
+                    idUser: idUser
+                }
+            }).then(() => {
+                UserAnswer.build({
+                    answer: answer,
+                    idQuestion: questionId,
+                    idUser: idUser
+                }).save();
+            });
+        });
+    });
+
+    points = `${points / i}%`;
+
+    Result.build({
+        result: points,
+        idUser: idUser,
+        idTest: idTest
+    }).save();
+
+    res.redirect(`/test/correct/${idTest}`);
+}
+
+exports.correctAnswers = (req, res) => {
+
+    const idTest = req.params.id;
+
+    sequelize.query(
+        `SELECT * FROM questions, useranswers WHERE questions.idTest = ${idTest}`
+    ).then((questionsAndAnswers) => {
+        res.send(questionsAndAnswers);
+    });
+}
+
+exports.results = (req, res) => {
+    
+    const idTest = req.params.id;
+    var userClass = `${req.body.classnumber}${req.body.classletter}`;
+    var userGroup = req.body.group;
+
+    if(userClass == 'undefinedundefined') {
+        userClass = '1a';
+    }
+
+    if(userGroup == 'undefined') {
+        userGroup = '1';
+    }
+
+    sequelize.query(
+        `SELECT * FROM results JOIN users ON users.id = results.idUser WHERE results.idTest = ${idTest} AND users.class = '${userClass}' AND users.group = '${userGroup}'`
+    ).then((results) => {
+        res.render('test/results', {results: results, idTest: idTest});
+    });
 }

@@ -1,24 +1,29 @@
-{{#each questions.[0]}}
+<form action="/test/check" method="post">
+    <input type="hidden" name="idTest" value="{{idTest}}">
+    {{#each questions.[0]}}
+        <input type="hidden" name="questionId" value="{{this.id}}">
+        <div class="test-title test-title-questions">
+            {{this.question}} ({{this.points}} p.)
+            
+            <label>
+                <input type="radio" name="answer{{this.id}}" value="a">
+                {{this.ansA}}
+            </label>
+            <label>
+                <input type="radio" name="answer{{this.id}}" value="b">
+                {{this.ansB}}
+            </label>
+            <label>
+                <input type="radio" name="answer{{this.id}}" value="c">
+                {{this.ansC}}
+            </label>
+            <label>
+                <input type="radio" name="answer{{this.id}}" value="d">
+                {{this.ansD}}
+            </label>
+        </div>
+    {{/each}}
     <div class="test-title test-title-questions">
-        {{this.question}}
-        
-        <label>
-            <input type="checkbox" name="">
-            {{this.ansA}}
-        </label>
-        <label>
-            <input type="checkbox" name="">
-            {{this.ansB}}
-        </label>
-        <label>
-            <input type="checkbox" name="">
-            {{this.ansC}}
-        </label>
-        <label>
-            <input type="checkbox" name="">
-            {{this.ansD}}
-        </label>
-
-        <input type="hidden" name="" value="{{this.id}}">
+        <input type="submit" value="sprawdź" class="btn">
     </div>
-{{/each}}
+</form>
