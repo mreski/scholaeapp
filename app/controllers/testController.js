@@ -28,8 +28,18 @@ exports.create = (req, res) => {
         description: testDescription,
         owner: uid
     }).save().then((test) => {
+
+        User.findAll().then((users) => {
+            users.forEach((user) => {
+                UserHasTest.build({
+                    idUser: uid,
+                    idTest: test.id
+                }).save();
+            });
+        });
+
         res.redirect(`/test/edit/${test.id}`);
-    })
+    });
 }
 
 exports.drop = (req, res) => {
@@ -259,7 +269,7 @@ exports.checkTest = (req, res) => {
         }).then((correct) => {
 
             if(answer == correct.correct) {
-                console.log(`${answer} - ${correct.correct} - ${points}`);
+                console.log(`${answer} - ${correct.correct} - ${points} - ${i}`);
                 points += 1;
             }
 
@@ -286,17 +296,25 @@ exports.checkTest = (req, res) => {
         idTest: idTest
     }).save();
 
+    UserHasTest.destroy({
+        where: {
+            idUser: idUser,
+            idTest: idTest
+        }
+    });
+
     res.redirect(`/test/correct/${idTest}`);
 }
 
 exports.correctAnswers = (req, res) => {
 
     const idTest = req.params.id;
+    const idUser = req.user.id;
 
     sequelize.query(
-        `SELECT * FROM questions, useranswers WHERE questions.idTest = ${idTest}`
+        `SELECT * FROM questions, useranswers WHERE questions.idTest = ${idTest} AND useranswers.idUser = ${idUser} GROUP BY questions.id`
     ).then((questionsAndAnswers) => {
-        res.send(questionsAndAnswers);
+        res.render('test/correct', {questionsAndAnswers: questionsAndAnswers});
     });
 }
 
