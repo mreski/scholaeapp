@@ -27,12 +27,28 @@ module.exports = function(app, passport) {
 
     app.post('/test/access/give/:id', isTeacher, testController.giveAccess);
 
+    app.get('/test/:id', isLoggedIn, testController.showTest);
+
+    app.post('/test/check', isLoggedIn, testController.checkTest);
+
+    app.get('/test/correct/:id', isLoggedIn, testController.correctAnswers);
+
+    app.get('/test/results/:id', isTeacher, testController.results);
+    app.post('/test/results/:id', isTeacher, testController.results);
+
     function isTeacher(req, res, next) {
         if (req.isAuthenticated() && (req.user.role == 'teacher' || req.user.role == 'admin')) {
             return next();
         }
 
-        // return next(); // delete on production
+        res.redirect('/signin');
+    }
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
         res.redirect('/signin');
     }
 }

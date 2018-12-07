@@ -12,12 +12,19 @@
 }
 
 .test-title-list,
-.test-title-edit {
+.test-title-edit,
+.test-title-questions {
     justify-content: space-between;
     margin: 0.5%;
 }
 
 .test-title-edit {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.test-title-questions {
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
@@ -57,6 +64,10 @@
     cursor: pointer;
     margin: 5%;
     box-sizing: border-box;
+}
+
+.test-title a {
+    text-decoration: none;
 }
 
 .test-title .form-buttons {

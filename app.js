@@ -19,11 +19,13 @@ app.use(passport.session()); // persistent login sessions
 
 // View Engine
 app.set('views', './app/views')
-app.engine('hbs', exphbs({
+var hbsHelpers = exphbs.create({
+    helpers: require("./app/helpers/handlebars.js").helpers,
     extname: '.hbs',
     defaultLayout: 'layout',
     layoutsDir: './app/views/layouts'
-}));
+});
+app.engine('.hbs', hbsHelpers.engine);
 app.set('view engine', '.hbs');
 
 // public folder

@@ -14,7 +14,7 @@
                     <option value="c">Odpowiedź C</option>
                     <option value="d">Odpowiedź D</option>
                 </select>
-                <input type="text" name="points" value="{{this.points}}">
+                {{!-- <input type="text" name="points" value="{{this.points}}"> --}}
                 <button formaction="/test/question/drop/{{this.id}}" type="submit" class="drop-btn">Usuń</button>
                 <button formaction="/test/question/edit/{{this.id}}" type="submit" class="edit-btn">Edytuj</button>
             </span>
@@ -37,7 +37,7 @@
                 <option value="c">Odpowiedź C</option>
                 <option value="d">Odpowiedź D</option>
             </select>
-            <input type="text" name="points" placeholder="Punkty">
+            {{!-- <input type="text" name="points" placeholder="Punkty"> --}}
             <input type="reset" value="Usuń" class="drop-btn">
             <input type="submit" value="Dodaj" class="access-btn">
         </span>

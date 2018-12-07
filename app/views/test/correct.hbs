@@ -1,0 +1,23 @@
+{{#each questionsAndAnswers.[0]}}
+    <input type="hidden" name="questionId" value="{{this.id}}">
+    <div class="test-title test-title-questions">
+        {{this.question}} ({{this.points}} p.)
+        <br><br>
+
+        <label>
+            {{#answerIsEqual this.correct "a" this.ansA}} {{/answerIsEqual}}
+        </label>
+        <label>
+            {{#answerIsEqual this.correct "b" this.ansB}} {{/answerIsEqual}}
+        </label>
+        <label>
+            {{#answerIsEqual this.correct "c" this.ansC}} {{/answerIsEqual}}
+        </label>
+        <label>
+            {{#answerIsEqual this.correct "d" this.ansD}} {{/answerIsEqual}}
+        </label>
+
+        <br><br>
+        Twoja odpowiedź: {{this.answer}}
+    </div>
+{{/each}}
