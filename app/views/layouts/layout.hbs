@@ -16,8 +16,7 @@
                 </h3>
              </span>
             <nav>
-                <a href="/test/create">Utwórz test</a>
-                <a href="/test/list">Lista testów</a>
+                {{#showTeacherMenu user.role}} {{/showTeacherMenu}}
                 <a href="/logout">Wyloguj</a>
             </nav>
         </header>

@@ -332,9 +332,21 @@ exports.results = (req, res) => {
         userGroup = '1';
     }
 
+    // sequelize.query(
+    //     `SELECT * FROM results JOIN users ON users.id = results.idUser WHERE results.idTest = ${idTest} AND users.class = '${userClass}' AND users.group = '${userGroup}'`
+    // ).then((results) => {
+    //     res.render('test/results', {results: results, idTest: idTest});
+    // });
+
     sequelize.query(
-        `SELECT * FROM results JOIN users ON users.id = results.idUser WHERE results.idTest = ${idTest} AND users.class = '${userClass}' AND users.group = '${userGroup}'`
+        `SELECT users.id, users.firstname, users.lastname, count(*) AS points FROM questions JOIN useranswers ON questions.id = useranswers.idQuestion JOIN users ON users.id = useranswers.idUser WHERE questions.idTest = ${idTest} AND users.class = '${userClass}' AND users.group = '${userGroup}' AND questions.correct = useranswers.answer GROUP BY users.id`
     ).then((results) => {
-        res.render('test/results', {results: results, idTest: idTest});
+
+        sequelize.query(
+            `SELECT count(*) AS allPoints FROM questions WHERE idTest = 19`
+        ).then((allPoints) => {
+            console.log(allPoints);
+            res.render('test/results', {results: results, allPoints: allPoints, idTest: idTest});
+        });
     });
 }

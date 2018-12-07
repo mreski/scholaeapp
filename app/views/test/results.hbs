@@ -29,7 +29,11 @@
         <form method="post">
             {{this.firstname}}
             {{this.lastname}}
-            {{this.result}}
+            &nbsp;-&nbsp; {{this.points}}p. /
+            {{#each ../allPoints.[0]}}
+                {{this.allPoints}}p. {{../this.points}}
+                ({{#calculatePoints ../this.points this.allPoints}} {{/calculatePoints}})
+            {{/each}}
         </form>
     </div>
 {{/each}}
